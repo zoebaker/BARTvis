@@ -7,3 +7,11 @@ My name is Zoe Baker and I'll be posting assignments related to my final project
 
   I’ve also been learning more about the origins of BART and how it destroyed Black and Brown neighborhoods in order for the service to bring white middle class workers who were leaving the city for more suburban areas to their jobs in the Financial District. Transportation and mobility are incredibly important aspects of racial equity and I think the data could reveal information about essential workers, patterns of gentrification, and how public transportation has or has not changed due to the pandemic.  
 
+
+
+
+### Links to visualizations 
+
+```{js}
+console.log("hello")
+```
