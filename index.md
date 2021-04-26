@@ -12,6 +12,5 @@ My name is Zoe Baker and I'll be posting assignments related to my final project
 
 ### Links to visualizations 
 
-```{js}
-console.log("hello")
-```
+[Average Rides per Hour Histogram](https://bl.ocks.org/zoebaker/raw/09b8ee8fd1768f22654444030724ea40/?raw=true)
+
