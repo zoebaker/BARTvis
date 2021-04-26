@@ -12,6 +12,6 @@ My name is Zoe Baker and I'll be posting assignments related to my final project
 
 ### Links to Beta Release visualizations 
 
-[Average Rides per Hour Histogram](https://bl.ocks.org/zoebaker/raw/09b8ee8fd1768f22654444030724ea40/?raw=true)
+[Average Rides per Hour Histogram](https://bl.ocks.org/zoebaker/raw/42def562042c3420474333e0d5daaf12/?raw=true)
 
-[Parallel Coordinates Chart Showing Change in Ridership Before, During, and After Bay Area Lockdown Orders](https://bl.ocks.org/zoebaker/raw/42def562042c3420474333e0d5daaf12/?raw=true) 
+[Parallel Coordinates Chart Showing Change in Ridership Before, During, and After Bay Area Lockdown Orders](https://bl.ocks.org/zoebaker/raw/a7932486d455b941d6bc97983b5c2bc6/?raw=true) 
