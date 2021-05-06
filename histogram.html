@@ -1,0 +1,47 @@
+<html>
+<head>
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-legend/2.25.6/d3-legend.min.js"></script>
+
+    <style>
+        div.tooltip {
+            position: absolute;
+            text-align: center;
+            width: 60px;
+            height: 28px;
+            padding: 2px;
+            font: 12px sans-serif;
+            background: orange;
+            border: 0px;
+            border-radius: 8px;
+            pointer-events: none;
+        }
+    </style>
+</head>
+
+<body>
+<svg>
+    <h1>Histogram of Stations Binned by Average Rides Per Hour</h1>
+</svg>
+        <fieldset>
+            <legend>Please select a direction</legend>
+            <input type="radio" class="myRadio" name="direction" id="origin" value="origin" checked/><label for="origin">Origin</label><br>
+            <input type="radio" class = "myRadio" name="direction" id="destination" value="destination"  /><label for="destination">Destination</label><br>
+        </fieldset>
+
+        <fieldset>
+            <legend>Please select a time period</legend>
+        <input type="radio" class = "myRadio" id="before" name="pandemic" value="before" checked/>
+        <label for="before">Pre Bay Area Pandemic Lockdown</label><br>
+        <input type="radio" class = "myRadio" id="during" name="pandemic" value="during" >
+        <label for="during">During Bay Area Pandemic Lockdown</label><br>
+        <input type="radio" class = "myRadio" id="post" name="pandemic" value="post">
+        <label for="post">Post Bay Area Pandemic Lockdown</label><br>
+        </fieldset>
+
+
+<script src ='hist.js'></script>
+
+
+</body>
+</html>
