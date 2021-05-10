@@ -1,9 +1,9 @@
 
 
-var w = 1700;
+var w = 1100;
 var h = 600;
 
-const margin = {top: 30, right: 20, bottom: 20, left: 20};
+const margin = {top: 30, right: 20, bottom: 20, left: 30};
 const width = w - margin.left - margin.right,
     height = h - margin.top - margin.bottom;
 
@@ -17,7 +17,7 @@ const g = d3.select("body").append("svg")
 
 var div = d3.select("body").append("div")
     .attr("class", "tooltip")
-    .style("opacity", 1)
+    .style("opacity", 0)
     .attr("transform", "translate(" + 300+ "," + 200 + ")");
 
 // var div = g.append("div")
@@ -31,26 +31,55 @@ var render = data => {
     const xValue = d=>d.bin;
     const yValue = d=>d.avg;
 
-    const xScale =d3.scaleBand()
+    var xScale =d3.scaleBand()
         .domain(data.map(xValue))
-        .range([0,width/2]);
+        // .range([0,width/2]);
+        .range([0,width]);
 
-    const yScale = d3.scaleLinear()
+    var yScale = d3.scaleLinear()
         .domain([0,d3.max(data,yValue)])
         // .range([0,graphHeight]);
         .range([graphHeight,0]);
 
-
     //print axes
-    const yAxis = d3.axisLeft(yScale)
-    const xAxis = d3.axisBottom(xScale)
-
-    g.append('g').call(d3.axisLeft(yScale))
+    var yAxis = g.append('g').call(d3.axisLeft(yScale))
         .attr("transform", "translate( "+ margin.left + "," + 0 + ")")
 
-    g.append('g').call(d3.axisBottom(xScale).ticks(width/40).tickSizeOuter(0))
-        .attr("transform", "translate( "+ margin.left + "," + graphHeight + ")");
+    var xAxis = g.append('g').call(d3.axisBottom(xScale).ticks(width/40).tickSizeOuter(0))
+        .attr("transform", "translate( "+ margin.left + "," + graphHeight + ")")
+        .attr('id', 'xaxis');
+
+    // g.append('g').call(d3.axisLeft(yScale))
+    //     .attr("transform", "translate( "+ margin.left + "," + 0 + ")")
+
+    // g.append('g').call(yAxis)
+    //     .attr("transform", "translate( "+ margin.left + "," + 0 + ")")
+    //     .attr('id', 'yaxis')
+    //
+    // g.append('g').call(d3.axisBottom(xScale).ticks(width/40).tickSizeOuter(0))
+    //     .attr("transform", "translate( "+ margin.left + "," + graphHeight + ")")
+    //     .attr('id', 'xaxis');
         // .attr("text-anchor", "end")
+
+// axes labels
+
+    //x axis label
+    g.append("text")
+        .attr("text-anchor", "midde")
+        .attr("x", width/2)
+        .attr("y", height + 10)
+        .text("Average Rides per Hour");
+
+    //y axis label
+    g.append("text")
+        .attr("text-anchor", "middle")
+        .attr("transform", "rotate(-90)")
+        .attr("y", -margin.left+20)
+        .attr("x", -graphHeight/2)
+        .text("Number of Stations")
+
+
+////Create original rects/////
 
     const rects = g.selectAll('rect')
         .data(data)
@@ -60,21 +89,20 @@ var render = data => {
     rects
         .attr('width', xScale.bandwidth())
         .attr('fill','steelblue')
-        .attr('opacity',.7);
-        // .attr('x', d => xScale(xValue(d)))
-    rects
-        .attr('x', function(d,i){return xScale(xValue(d))+xScale.bandwidth()})
+        .attr('opacity',.7)
+        .attr('x', function(d){return xScale(xValue(d))+xScale.bandwidth()})
         .attr('y',function(d) { return yScale(yValue(d))})
         .attr('height',function(d) {return yScale(0) - yScale(yValue(d))})
-        // .append('title').text(d=>d.avg)
+        .append('title').text(d=>d.avg)
         .attr('min', function(d){return d.x0})
         .attr('max',d=>d.x1)
         .attr('opacity',.7)
         .on("mouseover", function(d) {
-            var here = d3.select(this)
 
-            here.
+            d3.select(this).
             attr('fill','orange');
+
+            console.log('hello');
 
             div.transition()
                 .duration(200)
@@ -86,21 +114,58 @@ var render = data => {
                 .style("top", (0) + "px");
         })
         .on("mouseout", function(d) {
+
             d3.select(this).
             attr('fill','steelblue');
 
-            // div.transition()
-            //     .duration(200)
-            //     .style("opacity", 0)
-            //     .attr('fill','orange');
-            // div.html()
-            //     .style("left", 300+ "px")
-            //     .style("top", (200) + "px");
+            div.transition()
+                .duration(200)
+                .style("opacity", 0)
+                .attr('fill','orange');
+            div.html()
+                .style("left", 300+ "px")
+                .style("top", (200) + "px");
 
         });
 
+    var postpan = data.filter(function(d){return d.bin == 1 & d.period=='during' & d.direction == "origin"})
+
+    var test = document.getElementById('destination');
+    console.log(xScale(postpan[0].bin)+xScale.bandwidth())
 
 
+
+    var annotationBoxHeight = 40;
+
+
+    ////DIY Annotation Box///
+
+    // console.log(postpan[0])
+    // const duringOriginAnnotation = g.append('g')
+    //     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+    // g.append('line')
+    //     .style("stroke", "lightgreen")
+    //     .style("stroke-width", 1)
+    //     .attr("x1", xScale(postpan[0].bin)+(2*xScale.bandwidth()))
+    //     .attr("y1",200)
+    //     .attr("x2", xScale(postpan[0].bin)+xScale.bandwidth()+60)
+    //     .attr("y2", 150);
+
+    // g.append('rect')
+    //
+    //
+    //     var annotationBox = "rect"
+    //     .attr('x',xScale(postpan[0].bin)+xScale.bandwidth()+60)
+    //     .attr('y', 150+annotationBoxHeight/2)
+    //     .style('stroke', 'black')
+    //     .attr('fill', 'yellow')
+    //     .attr('width',60)
+    //     .attr('height',annotationBoxHeight )
+    //
+    //
+
+    /////update functionality/////////
     d3.selectAll(".myRadio").on("change", update);
     update();
 
@@ -128,6 +193,21 @@ var render = data => {
 
             // newData = data.filter(function(d,i){return choices.includes(d);});
 
+
+            // xScale =d3.scaleBand()
+            //     .domain(newData.map(xValue))
+            //     // .range([0,width/2]);
+            //     .range([0,width]);
+
+            yScale = d3.scaleLinear()
+                .domain([0,d3.max(newData,yValue)])
+                // .range([0,graphHeight]);
+                .range([graphHeight,0]);
+
+
+
+            g.selectAll("rect").remove();
+
             var boop = g.selectAll('rect')
                 .data(newData)
 
@@ -135,23 +215,51 @@ var render = data => {
                 .attr('width', xScale.bandwidth())
                 .attr('fill','steelblue')
                 .attr('opacity',.7)
+                .attr('bin', d=>d.bin)
                 .merge(boop)
-                    .attr('x', d => xScale(xValue(d)))
-                    .attr('x', function(d){return xScale(xValue(d))+xScale.bandwidth()})
+                    // .attr('x', d => xScale(xValue(d)))
+                    .attr('x', function(d){return xScale(xValue(d))+(xScale.bandwidth()+4)})
+                // .attr('x', function(d){return xScale(xValue(d))+(1.5*xScale.bandwidth())})
                     .attr('y',function(d) { return yScale(yValue(d))})
                     .attr('height',function(d) {return yScale(0) - yScale(yValue(d))})
                     .attr("num", function (d){return d.avg})
-                    // .append('title').text(this.attr("num"))
-        .on("mouseover", function(d) {
-                d3.select(this).
-                attr('fill','orange');
+                .on("mouseover", function(d){
+                    console.log('hello')
 
-                div.transition()
-                    .duration(200)
-                    .style("opacity", .9);
-                div.html(d3.select(this).min)
-                    .style("left", 500+ "px")
-                    .style("top", (500) + "px");
+
+                    var workingRect =  d3.select(this)
+
+                    workingRect.
+                    attr('fill','orange');
+
+
+
+                    console.log(workingRect.attr('y')-workingRect.attr('height'))
+
+
+
+                    div.transition()
+                        .duration(200)
+                        .style("opacity", .9)
+                        .attr('fill','orange');
+                    // div.innerHTML("Range:"+ here.getAttribute("min") + "-"+ here.getAttribute("max") + "<br/>"  + here.getAttribute("num"))
+                    div.html(workingRect.attr("num")+" stations had an average of "+workingRect.attr("bin")+" Rides per hour")
+                        // .style("left", (workingRect.attr('x'))+"px")
+                        .style('left',500+"px")
+                        .style("top",  (450)+"px")
+
+                        // tooltip.html("Jello")
+                        // .style("left", 30+ "px")
+                        // .style("top", (0) + "px");
+
+                console.log(d3.select(this).attr("bin"))
+
+                // div.transition()
+                //     .duration(200)
+                //     .style("opacity", .9);
+                // div.html(d3.select(this).min)
+                //     .style("left", 500+ "px")
+                //     .style("top", (500) + "px");
             })
                 .on("mouseout", function(d) {
                     d3.select(this).
@@ -163,39 +271,51 @@ var render = data => {
                     div.transition()
                         .duration(200)
                         .style("opacity", 0);
-                    div.html(thisrect.min)
-                        .style("left", 500+ "px")
-                        .style("top", (500) + "px");
+                    // div.html(thisrect.min)
+                    //     .style("left", 500+ "px")
+                    //     .style("top", (500) + "px");
 
-                });
+                })
+            .append('title').text(d=>d.avg);
 
             boop.exit().remove()
+
+
+            //
+            // //create new axes
+
+
+
+            // g.append('g').call(d3.axisLeft(yScale))
+            //     .attr("transform", "translate( "+ margin.left + "," + 0 + ")")
+            //
+            // g.append('g').call(d3.axisBottom(xScale).ticks(width/40).tickSizeOuter(0))
+            //     .attr("transform", "translate( "+ margin.left + "," + graphHeight + ")");
+
+            // var axisTest = g.selectAll("g.y.axis")
+            //  console.log(axisTest)
+            //
+
+            yAxis.remove();
+            // xAxis.remove();
+
+            yAxis = g.append('g').call(d3.axisLeft(yScale))
+                .attr("transform", "translate( "+ margin.left + "," + 0 + ")")
+
+            // xAxis = g.append('g').call(d3.axisBottom(xScale).ticks(width/40).tickSizeOuter(0))
+            //     .attr("transform", "translate( "+ margin.left + "," + graphHeight + ")");
+
+
+            //  g.append('g').call(d3.axisLeft(yAxis))
+            //      .attr("transform", "translate( "+ margin.left + "," + 0 + ")")
+            //
+
+
 
     }}
 
 
 
-    /////og update function///////
-
-    function update1(filteredData){
-        var u = g.selectAll('rect')
-            .data(filteredData)
-
-        //if there is data that does not have a rect
-        u.enter().append('rect')
-            .merge(u)
-            // // .join("rect")
-            .attr('width', xScale.bandwidth())
-            .attr('x', d => xScale(xValue(d)))
-            .attr('x', function(d){return xScale(xValue(d))+xScale.bandwidth()})
-            .attr('y',function(d) { return yScale(yValue(d))})
-            .attr('height',function(d) {return yScale(0) - yScale(yValue(d))})
-            .attr('fill','green')
-            .append('title').text(d=>d.avg)
-
-        //if there are elements that don't have data, remove them
-        u.exit().remove();
-    }
 
     // var preButton = document.getElementById('pre');
     // console.log(preButton)
@@ -234,6 +354,16 @@ var render = data => {
     //     console.log(filtered)
     //     update(filtered);
     // }
+
+    g.append('text')
+        .attr("class", "caption")
+        .attr("font-family", "'Work sans', sans-serif")
+        .attr("font-size", 30)
+        .attr("x", w/2)
+        .attr("y", h-2)
+        .style('text-anchor', 'middle')
+        .html('Histogram of BART Stations Binned by Average Rides Per Hour')
+
 
 }
 
