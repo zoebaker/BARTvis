@@ -2,26 +2,31 @@
 <head>
     <script src="https://d3js.org/d3.v6.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-legend/2.25.6/d3-legend.min.js"></script>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-annotation/2.5.1/d3-annotation.min.js" integrity="sha512-iBAeBWWWFb8HqSBcrqcz98iIpuVH1la39dEYHtyQ/pGpeCQTQVvLJOWAuhv2Q7JSHp9k7hWA7sGxU3hHJe+tFg==" crossorigin="anonymous"></script>
     <style>
         div.tooltip {
             position: absolute;
             text-align: center;
-            width: 60px;
-            height: 28px;
+            width: 130px;
+            height: 110px;
             padding: 2px;
-            font: 12px sans-serif;
+            font: 20px sans-serif;
             background: orange;
             border: 0px;
             border-radius: 8px;
             pointer-events: none;
+
+        }
+
+        h1{
+            font:40px sans-serif;
         }
     </style>
 </head>
 
 <body>
 <svg>
-    <h1>Histogram of Stations Binned by Average Rides Per Hour</h1>
+    <h1>87% of BART Stations had an average of 1 Rider per Hour During Bay Area Lockdown Measures</h1>
 </svg>
         <fieldset>
             <legend>Please select a direction</legend>
