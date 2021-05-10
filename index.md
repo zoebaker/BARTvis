@@ -14,4 +14,6 @@ My name is Zoe Baker and I'll be posting assignments related to my final project
 
 [Average Rides per Hour Histogram](https://zoebaker.github.io/BARTvis/histogram.html)
 
-[Parallel Coordinates Chart Showing Change in Ridership Before, During, and After Bay Area Lockdown Orders](https://bl.ocks.org/zoebaker/raw/a7932486d455b941d6bc97983b5c2bc6/?raw=true) 
+[Parallel Coordinates Chart Showing Change in Ridership Before, During, and After Bay Area Lockdown Orders](https://zoebaker.github.io/BARTvis/paracord.html) 
+
+[Ridership Map](https://zoebaker.github.io/BARTvis/map.html) 
