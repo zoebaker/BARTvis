@@ -83,7 +83,7 @@ var render = data =>{
         var boop = g.selectAll('circle')
             .data(newData)
             .join('circle')
-            .attr('fill','magenta')
+            .attr('fill','blue')
             .attr('opacity',.2)
             .attr('r',d=>d.x)
             .attr("cx", function(d) {
