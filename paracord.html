@@ -1,0 +1,55 @@
+<html>
+<head>
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-legend/2.25.6/d3-legend.min.js"></script>
+    <script src="https://bl.ocks.org/syntagmatic/raw/3341641/render-queue.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-legend/2.25.6/d3-legend.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-annotation/2.5.1/d3-annotation.min.js" integrity="sha512-iBAeBWWWFb8HqSBcrqcz98iIpuVH1la39dEYHtyQ/pGpeCQTQVvLJOWAuhv2Q7JSHp9k7hWA7sGxU3hHJe+tFg==" crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="paracord_styles.css" media="screen" />
+
+    <style>
+        div.tooltip {
+            position: absolute;
+            text-align: center;
+            width: 60px;
+            height: 28px;
+            padding: 2px;
+            font: 12px sans-serif;
+            background: orange;
+            border: 0px;
+            border-radius: 8px;
+            pointer-events: none;
+        }
+    </style>
+
+</head>
+<body>
+<svg>
+    <h1> Stations' Average Rides Per Hour Before, During, and After Bay Area Lockdown Measures</h1>
+<!--    <br>-->
+    <h4>*Hover on a line to see how the station's ridership changed during the different time periods*</h4>
+    <fieldset>
+        <legend>Please select a direction</legend>
+       <input type="radio" id="destination" name="direction" value="destination" click.capture=“updateData("destination")”>
+       <label for="destination">Destination</label><br>
+       <input type="radio" id="origin" name="direction" value="origin" onclick = "updateData('origin')">
+       <label for="origin">Origin</label><br>
+        </fieldset>
+<fieldset>
+    <legend>Please select a region</legend>
+    <input type="checkbox" class="myCheckbox" value="East Bay" id = "eastbay" checked><label>East Bay</label>
+    <input type="checkbox" class="myCheckbox" value="Peninsula" checked><label>Peninsula</label>
+    <input type="checkbox" class="myCheckbox" value="San Francisco" checked><label>San Francisco</label>
+    <input type="checkbox" class="myCheckbox" value="South Bay" checked><label>South Bay</label>
+</fieldset>
+
+<!--    <div> <input type="checkbox" class="checkbox" value="East Bay" checked><label>East Bay</label> </div>-->
+<!--    <div> <input type="checkbox" class="checkbox" value="Peninsula" checked><label>Peninsula</label></div>-->
+<!--    <div> <input type="checkbox" class="checkbox" value="San Francisco" checked><label>San Francisco</label></div>-->
+<!--    <div> <input type="checkbox" class="checkbox" value="South Bay" checked><label>South Bay</label></div>-->
+</svg>
+
+<script src ='paracord.js'></script>
+
+</body>
+</html>
