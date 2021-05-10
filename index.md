@@ -10,7 +10,7 @@ My name is Zoe Baker and I'll be posting assignments related to my final project
 
 
 
-### Links to Beta Release visualizations 
+### Links to Visualizations 
 
 [Average Rides per Hour Histogram](https://zoebaker.github.io/BARTvis/histogram.html)
 
