@@ -8,25 +8,20 @@
     <link rel="stylesheet" type="text/css" href="paracord_styles.css" media="screen" />
 
     <style>
-        div.tooltip {
-            position: absolute;
+        .header {
+            padding: 60px;
             text-align: center;
-            width: 60px;
-            height: 28px;
-            padding: 2px;
-            font: 12px sans-serif;
-            background: orange;
-            border: 0px;
-            border-radius: 8px;
-            pointer-events: none;
+            background: #1abc9c;
+            color: white;
+            font-size: 30px;
         }
     </style>
-
 </head>
 <body>
 <svg>
-    <h1> Stations' Average Rides Per Hour Before, During, and After Bay Area Lockdown Measures</h1>
-<!--    <br>-->
+    <div class="header">
+        <h1>Parallel Coordinates Chart Showing Changes in Station Ridership Patterns Before, During, and After Lockdown Measures</h1>
+    </div>
     <h4>*Hover on a line to see how the station's ridership changed during the different time periods*</h4>
     <fieldset>
         <legend>Please select a direction</legend>
@@ -43,13 +38,19 @@
     <input type="checkbox" class="myCheckbox" value="South Bay" checked><label>South Bay</label>
 </fieldset>
 
-<!--    <div> <input type="checkbox" class="checkbox" value="East Bay" checked><label>East Bay</label> </div>-->
-<!--    <div> <input type="checkbox" class="checkbox" value="Peninsula" checked><label>Peninsula</label></div>-->
-<!--    <div> <input type="checkbox" class="checkbox" value="San Francisco" checked><label>San Francisco</label></div>-->
-<!--    <div> <input type="checkbox" class="checkbox" value="South Bay" checked><label>South Bay</label></div>-->
 </svg>
-
 <script src ='paracord.js'></script>
+<div class="header">
+    <h1>Findings</h1>
+</div>
 
+<ol type="1">
+    <li style="font-size:30px">Fruitvale Became the Most Popular Origin Station in the East Bay
+        <p><img src="eastBayFindings.jpg" alt="Flowers in Chania" width="600" height="600"></p>
+    </li>
+    <li style="font-size:30px">Downtown San Francisco Stations Dominate in Popularity Before, During, and After Lockdown Measures
+        <p><img src="dtsf_findings.jpeg" alt="Flowers in Chania" width="600" height="600"></p>
+    </li>
+</ol>
 </body>
 </html>
