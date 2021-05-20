@@ -1,6 +1,6 @@
 ## Welcome to BARTvis 
 
-My name is Zoe Baker and I'll be posting assignments related to my final project for my data visualization course. 
+My name is Zoe and I'll be posting assignments related to my final project for my data visualization course. 
 
 ### Project Background 
   As a lifelong rider of Bay Area public transportation, I have found the changes to BART and MUNI during the pandemic very interesting. Although San Franisco has moved into the orange tier, I do not ride public transportation nearly as much as I used to. I am curious to see how public transportation ridership has or has not gone back to normal as some people like me choose to not ride, and others have no choice.  
@@ -25,3 +25,5 @@ All data was gathered from the [Kaggle BART ridership datasets](https://www.kagg
 [Parallel Coordinates Chart Showing Change in Ridership Before, During, and After Bay Area Lockdown Orders](https://zoebaker.github.io/BARTvis/paracord.html) 
 
 [Ridership Map](https://zoebaker.github.io/BARTvis/map.html) 
+
+##### For more information on BARTvis you visit the [User Manual](https://www.notion.so/BARTvis-User-Manual-17e938eb38404a33bd5069972463ee3c)
