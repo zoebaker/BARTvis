@@ -26,14 +26,13 @@ var render = data =>{
     var workingMonth = 1;
     var workingHour = 9;
 
-
-    //from _____
+//set projection
     var projection = d3.geoMercator()
         .scale(80000)
         .center([-122.2927387, 37.631258])
         .translate([width / 2, height / 2]);
 
-
+//from scott murray chpt 14
     var path = d3.geoPath()
         .projection(projection);
 
@@ -50,25 +49,23 @@ var render = data =>{
 
     });
 
-
+/////update function/////
 
     function update(val,period){
        if (period == 'year') {
-           // console.log(data)
-           // let year = d3.timeFormat('%Y')(val);
            let year = val;
            workingYear = year;
            console.log(year);
            var newData = data.filter(d=>d.year == +year & +d.hour == workingHour & +d.month == workingMonth)
-           // console.log(newData)
+
        }
 
        if (period == 'hour'){
-           // console.log(val)
+
            let hour = val;
            workingHour = hour;
            var newData = data.filter(d=> +d.hour == hour & +d.month == workingMonth & +d.year == workingYear)
-           // console.log(newData)
+
        }
         if (period == 'month'){
             // console.log(val)
@@ -78,8 +75,10 @@ var render = data =>{
             console.log(newData)
         }
 
+       //remove all circles
        g.selectAll("circle").remove();
 
+        //create new circles with the new data
         var boop = g.selectAll('circle')
             .data(newData)
             .join('circle')
@@ -94,14 +93,6 @@ var render = data =>{
             })
             .append("title")
             .text(function (d){return "Station: "+d["full name"]+ "\nAvg Rides Per Hour: " + format(d.x)} )
-            // .text("hello");
-        //Simple tooltip
-        //     .text(function(d) {
-        //         // console.log(d["full name"])
-        //         return d["full name"] + d.x;
-        //     });
-        //
-        // boop.exit().remove()
 
     }
 
@@ -129,10 +120,12 @@ var render = data =>{
             return "Station: "+d["full name"]+ "\nAvg Rides Per Hour: " +format(d.x);
         });
 
-  ///// Year Slider from https://bl.ocks.org/johnwalley/e1d256b81e51da68f7feb632a53c3518/////
+  ///// Slider from https://bl.ocks.org/johnwalley/e1d256b81e51da68f7feb632a53c3518/////
     var dataTime = d3.range(0, 11).map(function(d) {
         return new Date(2011 + d, 10, 3);
     });
+
+    //year slider//
 
     var sliderYear = d3
         .sliderBottom()
@@ -163,7 +156,7 @@ var render = data =>{
     d3.select('p#year-value').text(d3.timeFormat('%Y')(sliderYear.value()));
 
    ///Slider Month////
-    var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+
 
     var sliderMonth = d3
         .sliderBottom()
@@ -171,14 +164,13 @@ var render = data =>{
         .max(12)
         .step(1)
         .width(300)
-        // .tickFormat(d3.timeFormat('%b'))
-        // .tickValues(months)
+
         .default(1)
         .on('onchange', val => {
-            // let year = d3.timeFormat('%Y')(val);
+
             d3.select('p#month-value').text(val);
             update(val,'month')
-            // console.log(year)
+
         });
 
     var gMonth = d3
@@ -191,9 +183,6 @@ var render = data =>{
 
     gMonth.call(sliderMonth);
 
-    // d3.select('p#month-value').text(sliderMonth.value());
-
-
     /////Hour slider/////
     var hours = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23];
 
@@ -203,7 +192,6 @@ var render = data =>{
         .max(23)
         .step(1)
         .width(300)
-        // .tickFormat()
         .tickValues(hours)
         .default(9)
         .on('onchange', val => {
@@ -225,7 +213,7 @@ var render = data =>{
 }
 
 
-d3.csv("bartfull.csv").then(data => {
+d3.csv("mapData.csv").then(data => {
 
     render (data);
 });
