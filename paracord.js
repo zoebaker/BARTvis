@@ -15,8 +15,6 @@ const g = d3.select("body").append("svg")
     .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-
-
 var render = data => {
 
    // set the y axes
@@ -24,12 +22,18 @@ var render = data => {
 
    var y = {};
 
-   for (i in dimensions){
-       name = dimensions[i];
-       y[name] = d3.scaleLinear()
-           .domain(d3.extent(data, function(d){return +d[name];}))
-           .range([graphHeight,0])
-   }
+
+    y["Before"] = d3.scaleLinear()
+        .domain([0,d3.max(data,function(d){return +d["Before"]})])
+        .range([graphHeight,0]);
+
+    y["During"] = d3.scaleLinear()
+        .domain([0,d3.max(data,function(d){return +d["During"]})])
+        .range([graphHeight,0]);
+
+    y["After"] = d3.scaleLinear()
+        .domain([0,d3.max(data,function(d){return +d["During"]})])
+        .range([graphHeight,0]);
 
     // Build the X scale -> it find the best position for each Y axis
     x = d3.scalePoint()
@@ -48,87 +52,7 @@ var render = data => {
         g.attr("transform", transform);
     }
 
-/////Attempt at Annotations////
-
-   // console.log("here")
-   //  var fruit = data.filter(function(d){return d.station == "FTVL"})
-   //
-   //  console.log(fruit[1]["Before"])
-   //  console.log(y["After"](fruit[1]["After"]));
-
-    // const annotations = [
-    //     {
-    //         note: {
-    //             label: "Basic settings with subject position(x,y) and a note offset(dx, dy)",
-    //             title: "d3.annotationLabel"
-    //         }, subject: {
-    //                          radius: 100
-    //                      },
-    //         x: x("After") ,
-    //         y: y["After"](fruit[1]["After"]),
-    //         dy: -180,
-    //         dx: 100
-    //     },{
-    //         //          note: {
-    //         //              label: "Added connector end 'arrow', note wrap '180', and note align 'left'",
-    //         //              title: "d3.annotationLabel",
-    //         //              wrap: 150,
-    //         //              align: "left"
-    //         //          },
-    //         //          connector: {
-    //         //              end: "arrow" // 'dot' also available
-    //         //          },
-    //         //          x: 170,
-    //         //          y: 150,
-    //         //          dy: 137,
-    //         //          dx: 162
-    //         //      },{
-    //         //          note: {
-    //         //              label: "Changed connector type to 'curve'",
-    //         //              title: "d3.annotationLabel",
-    //         //              wrap: 150
-    //         //          },
-    //         //          connector: {
-    //         //              end: "dot",
-    //         //              type: "curve",
-    //         //              //can also add a curve type, e.g. curve: d3.curveStep
-    //         //              points: [[100, 14],[190, 52]]
-    //         //          },
-    //         //          x: 350,
-    //         //          y: 150,
-    //         //          dy: 137,
-    //         //          dx: 262
-    //         //      },{
-    //         //          //below in makeAnnotations has type set to d3.annotationLabel
-    //         //          //you can add this type value below to override that default
-    //         //          type: d3.annotationCalloutCircle,
-    //         //          note: {
-    //         //              label: "A different annotation type",
-    //         //              title: "d3.annotationCalloutCircle",
-    //         //              wrap: 190
-    //         //          },
-    //         //          //settings for the subject, in this case the circle radius
-    //         //          subject: {
-    //         //              radius: 50
-    //         //          },
-    //         //          x: 620,
-    //         //          y: 150,
-    //         //          dy: 137,
-    //         //          dx: 102
-    //     }].map(function(d){ d.color = "#E8336D"; return d})
-    // //
-    // const makeAnnotations = d3.annotation()
-    //     .type(d3.annotationCalloutCircle)
-    //     .annotations(annotations);
-    //
-    // g
-    //     .append("g")
-    //     .attr("class", "annotation-group")
-    //     .call(makeAnnotations)
-    //
-
-
-   //make color scale
+//make color scale
     var color =  d3.scaleOrdinal()
         .domain(["East Bay", "Peninsula", "San Francisco","South Bay"])
         .range(["#1b9e77","#d95f02","#7570b3", "#e7298a"]);
@@ -139,11 +63,6 @@ var render = data => {
         return d3.line()(dimensions.map(function(p) { return [x(p), y[p](d[p])]; }));
     }
 
-// var div = g.append("div")
-//     .attr("class", "tooltip")
-//     .style("opacity", 1)
-//     .attr('fill','blue')
-//     .attr("transform", "translate(" + 100 + "," + 100 + ")");
 
 var div = d3.select("body").append("div")
         .attr("class", "tooltip")
@@ -164,28 +83,13 @@ var div = d3.select("body").append("div")
         .attr('before',d=>d.b4)
         .attr('during',d=>d.during)
         .attr('after',d=>d.after)
+        .attr('fullName', d=>d.fullName)
         .attr('visibility', 'visible')
-        // .style("opacity", 0.5)
         .on("mouseover", function() {
-
             currLine = d3.select(this);
-
-
-            // console.log(currLine._groups[0][0]).getAttribute('during');
-
             currLine
-                // .style("stroke", "yellow")
                 .style("stroke-width",6)
                 .style("opacity", 0.5);
-
-            // div.transition()
-            //     .duration(200)
-            //     .style("opacity", 1)
-            //     .attr('background','green');
-
-            div.html(currLine.attr('station')+",\n"+currLine.direction)
-
-
         })
         .on("mouseout", function() {
             d3.select(this).style("stroke", "#69b3a2")
@@ -194,9 +98,7 @@ var div = d3.select("body").append("div")
                 .style("stroke",function(d){return color(d.region)});
         })
         .append('title')
-        .text(function(d){return "Station: "+d.station +"\nDirection: "+ d.direction})
-        // .text(function (d){return d.station + ","+ (d.direction)});  //not working, after clicking origin the origin lines direction says dest
-
+        .text(function(d){return "Station: "+d.fullName +"\nDirection: "+ d.direction+"\nBefore: "+d.b4+"\nDuring: "+d.during+"\nAfter: "+d.after})
 
 //draw legend
     //create legend group
@@ -212,7 +114,6 @@ var div = d3.select("body").append("div")
     //append legend
     g.select(".legendOrdinal")
         .call(legendOrdinal);
-
 
     // Draw the y axes:
     var axes = g.selectAll("myAxis")
@@ -230,16 +131,10 @@ var div = d3.select("body").append("div")
         .text(function(d) { return d; })
         .style("fill", "black")
 
-
-///create a brush for the axes///
-
-
     ///////button functionality //////
 
     //destination radio filter
     var destinationButton = document.getElementById('destination');
-
-    // var myElem = document.getElementByID('destination');
 
     destinationButton.onclick = function() {
         var filtered = data.filter(function (d) { return d.direction == 'destination';});
@@ -264,12 +159,7 @@ var div = d3.select("body").append("div")
            .data(filteredData)
            .join("path")
 
-       // u
-       //     .enter()
-       //     .append("path")
-       //     .merge(u)
-       //     .transition()
-       //     .duration(1000)
+
            .attr("d",  path)
            .attr("id", d=>d.station)
            .attr("direction",d=>d.direction)
@@ -277,7 +167,8 @@ var div = d3.select("body").append("div")
            // .style("stroke", 'purple')
            .style("fill", 'none')
            .select('title')
-           .text(function (d){return d.station +"," +d.direction});
+           .text(function(d){return "Station: "+d.fullName +"\nDirection: "+
+               d.direction+"\nBefore: "+d.b4+"\nDuring: "+d.during+"\nAfter: "+d.after});
 
 
 
@@ -317,69 +208,10 @@ console.log(hello);
         
            display == "visible"? hello.attr('visibility', 'visible'):hello.attr('visibility', 'hidden')
 
-
-
     });
 
 
-
 }
-
-
-
-
-    function updateCheck(){
-        // For each check box:
-        d3.selectAll(".checkbox").each(function(d){
-            cb = d3.select(d);
-            console.log(cb);
-            let grp = cb.property("value")
-            // If the box is check, I show the group
-            if(cb.property("checked")){
-                console.log(grp);
-                var someLines = d3.selectAll('path');
-                var workingLines = [];
-                someLines.forEach(function(d){
-                    if(d.region == grp){
-                        workingLines.push(d.region)
-                    }
-                });
-
-                console.log(workingLines)
-                // {return e.region == cb.property("label")})
-                //  workingLines
-                //         .style("opacity",1);
-                }
-   // Otherwise I hide it
-            else{
-                // g.selectAll("."+grp).transition().duration(1000).style("opacity", 0)
-                var someLines = d3.selectAll('path');
-                var workingLines = [];
-                someLines.forEach(function(d){
-                    if(d.region == grp){
-                        workingLines.push(d.region)
-                    }
-                });
-
-                console.log(workingLines)
-                // var workingLines = d3.selectAll('path').filter(function (e){return e.region == cb.property("label")})
-                // workingLines
-                //     .style("opacity",0);
-
-                // d3.selectAll('path')
-                //     .filter(function (d){return d.region == cb.property("label")})
-                //     .style("opacity",0)
-            }
-        })
-
-    }
-
-    // When a button change, I run the update function
-    // d3.selectAll(".checkbox").on("change",updateCheck);
-
-d3.selectAll(".checkbox").on("change",console.log("hello"));
-
-
 
 
 d3.csv("bartData.csv").then(data => {
@@ -391,6 +223,7 @@ d3.csv("bartData.csv").then(data => {
         d.during = +d["During"];
         d.after = +d["After"];
         d.region = d["Region"];
+        d.fullName = d["fullName"];
 
     });
 
