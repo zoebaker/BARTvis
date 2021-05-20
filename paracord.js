@@ -307,13 +307,14 @@ var div = d3.select("body").append("div")
         console.log(type);
         console.log(display)
 
-        console.log(hello);
+        
         var hello = g.selectAll("path")
             .filter(function() {
                 return d3.select(this).attr("region") == type; // filter by single attribute
             })
 
-
+console.log(hello);
+        
            display == "visible"? hello.attr('visibility', 'visible'):hello.attr('visibility', 'hidden')
 
 
